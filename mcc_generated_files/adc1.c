@@ -274,6 +274,12 @@ void ADC1_Tasks ( void )
     IFS0bits.ADCIF = 0;
 }
 
+
+void __attribute__ ((weak)) ADCAN11_CallBack(void)
+{
+    // Add your custom callback code here
+}
+
 void __attribute__ ( ( __interrupt__ , auto_psv ) ) _ADCAN11Interrupt ( void )
 {
     ADCAN11_CallBack();
@@ -281,7 +287,7 @@ void __attribute__ ( ( __interrupt__ , auto_psv ) ) _ADCAN11Interrupt ( void )
     IFS9bits.ADCAN11IF = 0;
 }
 
-void __attribute__ ((weak)) ADCAN11_CallBack(void)
+void __attribute__ ((weak)) ADCAN2_CallBack(void)
 {
     // Add your custom callback code here
 }
@@ -291,11 +297,6 @@ void __attribute__ ( ( __interrupt__ , auto_psv ) ) _ADCAN2Interrupt ( void )
     ADCAN2_CallBack();
     //clear the ADCAN2 interrupt flag
     IFS7bits.ADCAN2IF = 0;
-}
-
-void __attribute__ ((weak)) ADCAN2_CallBack(void)
-{
-    // Add your custom callback code here
 }
 
 

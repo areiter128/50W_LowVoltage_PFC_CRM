@@ -84,6 +84,11 @@ void IC3_Initialize (void)
 /*******************************************************************************
 Function Description:  Line Frequency Period Calculation using Input Capture
 *******************************************************************************/  
+void __attribute__ ((weak)) IC3_CallBack(void)
+{
+    // Add your custom callback code here
+}
+
 void __attribute__ ( ( interrupt, no_auto_psv ) ) _ISR _IC3Interrupt( void )
 {
     IC3_CallBack();
@@ -92,11 +97,6 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _ISR _IC3Interrupt( void )
     {
         IFS2bits.IC3IF = 0;
     }
-}
-
-void __attribute__ ((weak)) IC3_CallBack(void)
-{
-    // Add your custom callback code here
 }
 
 void IC3_Start( void )

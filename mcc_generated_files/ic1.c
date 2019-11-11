@@ -78,6 +78,12 @@ void IC1_Initialize (void)
     IEC0bits.IC1IE = true;
 }
 
+//extern void __attribute__ ((weak)) IC1_CallBack(void)
+void __attribute__ ((weak)) IC1_CallBack(void)
+{
+    // Add your custom callback code here
+}
+
 void __attribute__ ( ( interrupt, no_auto_psv ) ) _ISR _IC1Interrupt( void )
 {
     IC1_CallBack();
@@ -88,11 +94,6 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _ISR _IC1Interrupt( void )
     }
 }
 
-//extern void __attribute__ ((weak)) IC1_CallBack(void)
-void __attribute__ ((weak)) IC1_CallBack(void)
-{
-    // Add your custom callback code here
-}
 
 void IC1_Start( void )
 {
