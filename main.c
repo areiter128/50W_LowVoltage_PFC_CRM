@@ -69,6 +69,8 @@ extern volatile int16_t displayCount;
 extern volatile int16_t  pfcVoltageRef;
 extern volatile uint8_t displayValue;
 
+extern uint16_t rmsCurrent;
+
 extern PFC_FAULTS pfcFaultFlags;
 
 volatile FLT_CODE faultCode = NON;   //Default 
@@ -242,32 +244,34 @@ int main(void)
                                 displayValue = 4;
                             break;
 
-
                         case 4:
-                                displayCurrent = (__builtin_muluu(currentCH1Filtered,44000))>>15;             //32767*1000/(0.6*1241)
-                                printf("Measured CH1 current = %dmA \n",displayCurrent);
+                                printf("Measured RMS Current = %dmA \n", rmsCurrent);
                                 displayValue = 5;
                             break;
-
+                                
                         case 5:
-                                displayCurrent = (__builtin_muluu(currentCH2Filtered,44000))>>15;             //32767*1000/(0.6*1241)
-                                printf("Measured CH2 current = %dmA \n",displayCurrent);
+                                displayCurrent = (__builtin_muluu(currentCH1Filtered,44000))>>15;             //32767*1000/(0.6*1241)
+                                printf("Measured CH1 current = %dmA \n",displayCurrent);
                                 displayValue = 6;
                             break;
 
                         case 6:
-                                displayTemp = (__builtin_muluu((tempInputFiltered-620),2640))>>15;    //32767* (T-0.5)/(1241*10m))                            
-                                printf("Measured board temperature = %dC \n",displayTemp);
+                                displayCurrent = (__builtin_muluu(currentCH2Filtered,44000))>>15;             //32767*1000/(0.6*1241)
+                                printf("Measured CH2 current = %dmA \n",displayCurrent);
                                 displayValue = 7;
                             break;
 
                         case 7:
+                                displayTemp = (__builtin_muluu((tempInputFiltered-620),2640))>>15;    //32767* (T-0.5)/(1241*10m))                            
+                                printf("Measured board temperature = %dC \n",displayTemp);
+                                displayValue = 8;
+                            break;
+
+                        default:
                             {
                                //printf("End Value = 0x%x \n",0x0d);
                                displayValue = 0;
                             }
-
-                            default:
 
                             break;
                     }
