@@ -1162,7 +1162,7 @@ inline static void PWM_OverrideDataSet(PWM_GENERATOR genNum,uint16_t overrideDat
     PWM_DutyCycleSet(genNum, dutyCycle);
     </code>
 */  
-inline static void PWM_DutyCycleSet(PWM_GENERATOR genNum,uint16_t dutyCycle)
+inline static void PWM_DutyCycleSet(PWM_GENERATOR genNum, uint16_t dutyCycle)
 {
     switch(genNum) { 
         case PWM_GENERATOR_1:
