@@ -78,6 +78,9 @@ volatile FLT_CODE faultCode = NON;   //Default
 struct uartTxData uartTxBytes;
 STATE_CODE state = INIT, nextState = IDLE;
 
+#define LEDTGLCNTMAX 500000L
+volatile uint32_t ledtglcnt = 0;
+
 /*
                          Main application
  */
@@ -414,6 +417,13 @@ int main(void)
             break;
 
         }//end of switch  
+        
+        if(++ledtglcnt > LEDTGLCNTMAX)
+        { 
+            ledtglcnt = 0;
+            _LATC14 ^= 1; 
+        }
+        
         
     } //end of while
 
