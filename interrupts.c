@@ -318,7 +318,9 @@ Function Description:  PWM Time Period Calculation using Input Capture
 uint16_t icCapture2,icValue1;
 uint16_t transitionStartFlag=0;
 static uint16_t icCapture1;
-static uint16_t transitionCount,varCount;
+#if (DIST_MGMT == ENABLED)
+static uint16_t transitionCount, varCount;
+#endif
 
 //void __attribute__ ((__interrupt__, no_auto_psv)) _IC1Interrupt(void)
 void IC1_CallBack(void)
