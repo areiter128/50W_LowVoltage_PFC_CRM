@@ -28,14 +28,16 @@ FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF
 THESE TERMS.
 *******************************************************************************/
+#include <xc.h>
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "mcc_generated_files/mcc.h"
 #include "smps_control.h"
 #include "defines.h"
 #include "interrupts.h"
 #include "faults.h"
 #include "compensator.h"
-#include "stdint.h"
-#include "libpic30.h"
 
 
 struct uartTxData
