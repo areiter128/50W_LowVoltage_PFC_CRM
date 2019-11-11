@@ -53,7 +53,7 @@ void initPFCComp(void)
     pfcVoltageABCoefficients[8] = VOLTAGE_COMP_2P2Z_COEFF_A31;
 //    
     // Library options:        // For 'triggerSelectFlag', only one bit may be set:
-    pfcOptions.triggerSelectFlag = 0;  // 00 = Trigger functions disabled (0)
+    pfcOptions.triggerSelectFlag = 0;   // 00 = Trigger functions disabled (0)
                                         // 10 = Trigger On-Time enabled    (1)
                                         // 10 = Trigger Off-Time enabled   (2)
     pfcOptions.delayValue = 0;

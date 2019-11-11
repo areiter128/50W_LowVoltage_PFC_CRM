@@ -44,7 +44,7 @@ uint16_t transitionLHEnable, transitionHLEnable;
 uint16_t overCurrentCycle, freqCount;
 uint16_t vacRMS,pfcBulkVoltageFiltered,valueSyncPDC,currentCH1Filtered,currentCH2Filtered;
 uint16_t tempInputFiltered;
-uint16_t peakCurrent, rmsCurrent,computedPower;
+uint16_t peakCurrent, rmsCurrent, computedPower;
 uint16_t pfcUnderVoltageLimit = PFCVOUTMINADC;
 uint16_t vacRMSSquared = 0, xoverFactor = 0;
 uint16_t pfcVoltCompGain = 32767;
@@ -352,10 +352,10 @@ void IC1_CallBack(void)
                 transitionCount = 0;
             }
             
-            PWM_DutyCycleSet(SYNCPWMA,syncPDC);
+            PWM_DutyCycleSet(SYNCPWMA, syncPDC);
     
         #else
-            PWM_DutyCycleSet(SYNCPWMA,valueSyncPDC);   //50% dutycyle
+            PWM_DutyCycleSet(SYNCPWMA, valueSyncPDC);   //50% dutycyle
         #endif
     
     

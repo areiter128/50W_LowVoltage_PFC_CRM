@@ -42,20 +42,20 @@
   ; Initialize Alternate Working Registers context #2
 
   mov #_pfcVoltageRef,			w0   ; Address of the Reference register (Control Ref.)
-  mov #ADCBUF3,				w1   ; Address of the Input register (Input)
+  mov #ADCBUF3,				    w1   ; Address of the Input register (Input)
   mov #_pfcVoltCompOutput,		w2   ; Address of the Output target register (Output)
 
   ; w3, w4, w5 used for ACCAx registers and for MAC/MPY instructions
   ; Initialize registers to '0'
-  mov #_resultacc,			w3
-  mov #VOLTAGE_COMP_2P2Z_POSTSCALER,	w6
-  mov #VOLTAGE_COMP_2P2Z_POSTSHIFT,	w7
-  mov #_pfcOptions,			w8    ; Points to user options structure
-  mov #_pfcVoltageABCoefficients,	w9
+  mov #_resultacc,			         w3
+  mov #VOLTAGE_COMP_2P2Z_POSTSCALER, w6
+  mov #VOLTAGE_COMP_2P2Z_POSTSHIFT,	 w7
+  mov #_pfcOptions,			         w8    ; Points to user options structure
+  mov #_pfcVoltageABCoefficients,	 w9
   mov #_pfcVoltageErrorControlHistory,  w10
-  mov #VOLTAGE_COMP_2P2Z_MIN_CLAMP,	w11
-  mov #VOLTAGE_COMP_2P2Z_MAX_CLAMP,	w12
-  mov #ACCAL,				w13
+  mov #VOLTAGE_COMP_2P2Z_MIN_CLAMP,	 w11
+  mov #VOLTAGE_COMP_2P2Z_MAX_CLAMP,	 w12
+  mov #ACCAL,				         w13
   
   CTXTSWP #0x0  ; Swap back to main register set
 
