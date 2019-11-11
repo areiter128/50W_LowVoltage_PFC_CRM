@@ -81,12 +81,19 @@ STATE_CODE state = INIT, nextState = IDLE;
 #define LEDTGLCNTMAX 500000L
 volatile uint32_t ledtglcnt = 0;
 
+#define FLTMSGCNTMAX 500000L
+volatile uint32_t fltmsgcnt = 0;
+volatile bool flt_send_msg = false;
+
 /*
                          Main application
  */
 int main(void)
 {
      
+    _TRISC14 = 0;
+    _LATC14 = 0;
+    
     while(1)
     {   
     /* State Machine applicable for most Power Topologies 
@@ -297,7 +304,7 @@ int main(void)
             */
             case FAULT:
                 
-                 if(pfcFaultFlags.systemFaults != INACTIVE)
+                if(pfcFaultFlags.systemFaults != INACTIVE)
                 {
                     if(!faultElapsedCount) //Latch first fault
                         faultCode = faultState;
@@ -308,27 +315,42 @@ int main(void)
                     TMR3_Stop();
                     FAULT_SetLEDStates(faultLEDCode[faultCode]);
                     RELAY_DRV = DISABLED;
-                    printf("\n");
-                    printf("---------------------------------\n");
+                    flt_send_msg = false;
                     
+                    if(++fltmsgcnt > FLTMSGCNTMAX)
+                    {
+                        fltmsgcnt = 0;
+                        flt_send_msg = true;
+                    }
+                    
+                    if(flt_send_msg){
+                        printf("\n");
+                        printf("---------------------------------\n");
+                    }
                     /*Check for specific fault and action */
                     if(faultCode == IOC) //Current Fault,Needs Power Cycling
                     {
-                        printf("Input Over Current Fault\n");
-                        printf("Turn OFF power and turn ON again\n");
+                        if(flt_send_msg){
+                            printf("Input Over Current Fault\n");
+                            printf("Turn OFF power and turn ON again\n");
+                        }
                     }
                     else if(faultCode == IUV) //Input Under Voltage
                     {
-                        printf("Input Under Voltage Fault\n");
+                        if(flt_send_msg){
+                            printf("Input Under Voltage Fault\n");
+                        }
                         if(faultElapsedCount > 10)   //10s
                         {
-                            pfcFaultFlags.systemFaults = INACTIVE;  //Clear Faults
+                            pfcFaultFlags.systemFaults = INACTIVE;  // Clear Faults
                             nextState = IDLE; //Soft Restart
                         }
                     } 
                     else if(faultCode == IOV) //Input Over Voltage
                     {
-                        printf("Input Over Voltage Fault\n");
+                        if(flt_send_msg){
+                            printf("Input Over Voltage Fault\n");
+                        }
                         if(faultElapsedCount > 10)   //10s
                         {
                             pfcFaultFlags.systemFaults = INACTIVE;  //Clear Faults
@@ -337,7 +359,9 @@ int main(void)
                     } 
                     else if(faultCode == OUV) //Output Under Voltage
                     {
-                        printf("Output Under Voltage Fault\n");
+                        if(flt_send_msg){
+                            printf("Output Under Voltage Fault\n");
+                        }
                         
                         if(faultElapsedCount > 100)   //100s
                         {
@@ -348,7 +372,9 @@ int main(void)
                     } 
                     else if(faultCode == OOV) //Output Over Voltage
                     {
-                        printf("Output Over Voltage Fault\n");
+                        if(flt_send_msg){
+                            printf("Output Over Voltage Fault\n");
+                        }
                         
                         if(faultElapsedCount > 100)   //100s
                         {
@@ -359,7 +385,9 @@ int main(void)
                     } 
                     else if(faultCode == IUF) //Input Under Frequency
                     {
-                        printf("Input Under Frequency Fault\n");
+                        if(flt_send_msg){
+                            printf("Input Under Frequency Fault\n");
+                        }
                         
                         if(faultElapsedCount > 10)   //10s
                         {
@@ -369,7 +397,9 @@ int main(void)
                     }
                     else if(faultCode == IOF) //Input Over Frequency
                     {
-                        printf("Input Over Frequency Fault\n");
+                        if(flt_send_msg){
+                            printf("Input Over Frequency Fault\n");
+                        }
                         
                         if(faultElapsedCount > 100)   //100s
                         {
@@ -379,11 +409,15 @@ int main(void)
                     }
                     else if(faultCode == IOP) //Input Over Power, Needs Power Cycling
                     {
-                        printf("Input Over Power Fault\n");
+                        if(flt_send_msg){
+                            printf("Input Over Power Fault\n");
+                        }
                     } 
                     else if(faultCode == IOT)  //Over Temperature
                     {
-                        printf("Board Over Temperature Fault\n");
+                        if(flt_send_msg){
+                            printf("Board Over Temperature Fault\n");
+                        }
                         
                         if(faultElapsedCount > 1000)   //1000s
                         {
@@ -393,12 +427,16 @@ int main(void)
                     } 
                     else if(faultCode == APS)  //Aux Power Supply, Needs Power Cycling
                     {
-                        printf("Aux Power Supply Fault\n");   
-                        printf("Turn OFF power and turn ON again\n");
+                        if(flt_send_msg){
+                            printf("Aux Power Supply Fault\n");   
+                            printf("Turn OFF power and turn ON again\n");
+                        }
                     } 
                     else if(faultCode == URT) //UART
                     {
-                        printf("UART Comm. Fault\n");
+                        if(flt_send_msg){
+                            printf("UART Comm. Fault\n");
+                        }
                         nextState = INIT; //Hard Restart
                     }    
                 }
